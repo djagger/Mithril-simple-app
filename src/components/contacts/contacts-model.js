@@ -1,12 +1,23 @@
-Contacts = {};
+var Contacts = Contacts || {};
 
-Contacts.model = function () {
+(function () {
 
-	this.name  = m.prop('');
-	this.email = m.prop('');
+	var storage_id = 'mithril-address-book-app';
+	Contacts.storage = {
 
-};
+		get: function () {
+			return JSON.parse(localStorage.getItem(storage_id) || '[]');
+		},
 
-Contacts.vm = {
-	contacts: m.prop( [new Contacts.model()] ),
+		put: function (contactsNote) {
+			localStorage.setItem(storage_id, JSON.stringify(contactsNote));
+		}
+
+	};
+
+})();
+
+Contacts.model = function (data) {
+	this.name = m.prop(data.name);
+	this.email = m.prop(data.email);
 };

@@ -1,7 +1,36 @@
 Contacts.controller = function () {
 
-	var vm = Contacts.vm;
 	var ctrl = this;
+
+	//Contacts collection
+	ctrl.list = Contacts.storage.get();
+	console.log(ctrl.list);
+
+	//Update with props
+	console.log('Objects in localStorage: ');
+	ctrl.list = ctrl.list.map(function(item) {
+		console.log(item);
+		return new Contacts.model(item);
+	});
+
+	ctrl.name  = m.prop('');
+	ctrl.email = m.prop('');
+
+	ctrl.addNote = function () {
+		var name = ctrl.name().trim();
+		var email = ctrl.email().trim();
+		if (name&&email) {
+			ctrl.list.push(new Contacts.model({name: name, email: email}));
+			Contacts.storage.put(ctrl.list);
+		}
+		ctrl.name('');
+		ctrl.email('');
+	};
+
+	ctrl.removeNote = function (index) {
+		ctrl.list.splice(index, 1);
+		Contacts.storage.put(ctrl.list);
+	};
 
 	ctrl.hasErrorOfLengthChar = function (name) {
 		return name.length > 4;
@@ -25,15 +54,6 @@ Contacts.controller = function () {
 		*/
 		var validEmailPattern = /^([a-z0-9_\-]+\.)*[a-z0-9_\-]+@([a-z0-9][a-z0-9\-]*[a-z0-9]\.)+[a-z]{2,6}$/i;
 		return validEmailPattern.test(email);
-	};
-
-	ctrl.addNote = function () {
-		var newNote = new Contacts.model();
-		vm.contacts().push(newNote);
-	};
-
-	ctrl.removeNote = function (idx) {
-		vm.contacts().splice(idx, 1);
 	};
 
 };
