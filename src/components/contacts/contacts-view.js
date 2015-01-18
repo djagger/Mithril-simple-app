@@ -2,28 +2,36 @@ Contacts.view = function (ctrl) {
 
 	var removeNote = function (index) {
 		return m('button.close', { onclick: ctrl.removeNote.curry(index), type:'button' }, 'x');
-	}
+	};
+
+	var beautifulLine = function() {
+		if (ctrl.list.length >= 1) {
+			return m('hr');
+		}
+	};
 
 	return m('.contacts', [
-
-			//Add button
-			m('a.btn.btn-primary.btn-sm', { onclick: ctrl.addNote, href:'#' }, 'Add new Note'),
 
 			//Add new input fields
 			m('form.form-horizontal', { role:'form' }, [
 				m('.form-group', [
-					m('label.col-sm-1.control-label', "Name:"),
 					m('.col-sm-3', [
 						m('input[type=text].form-control', { value: ctrl.name(), onchange: m.withAttr('value', ctrl.name), placeholder: 'Your name (min 5 characters)' } ),
 					]),
 				]),
 				m('.form-group', [
-					m('label.col-sm-1.control-label', "Email:"),
 					m('.col-sm-3', [
 						m('input[type=text].form-control', { value: ctrl.email(), onchange: m.withAttr('value', ctrl.email), placeholder: 'Your email' } ),
 					]),
 				]),
 			]),
+
+			//Add button
+			m('.form-group', [
+				m('a.btn.btn-primary.btn-sm', { onclick: ctrl.addNote, href:'#' }, 'Add new Note'),
+			]),
+
+			beautifulLine(),
 
 			//Contacts form
 			m('form.form-horizontal', { role:'form' }, [

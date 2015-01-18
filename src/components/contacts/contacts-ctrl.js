@@ -4,7 +4,6 @@ Contacts.controller = function () {
 
 	//Contacts collection
 	ctrl.list = Contacts.storage.get();
-	console.log(ctrl.list);
 
 	//Update with props
 	console.log('Objects in localStorage: ');
@@ -17,10 +16,10 @@ Contacts.controller = function () {
 	ctrl.email = m.prop('');
 
 	ctrl.addNote = function () {
-		var name = ctrl.name().trim();
-		var email = ctrl.email().trim();
-		if (name&&email) {
-			ctrl.list.push(new Contacts.model({name: name, email: email}));
+		var prepareName = ctrl.name().trim();
+		var prepareEmail = ctrl.email().trim();
+		if (prepareName&&prepareEmail) {
+			ctrl.list.push(new Contacts.model({name: prepareName, email: prepareEmail}));
 			Contacts.storage.put(ctrl.list);
 		}
 		ctrl.name('');
